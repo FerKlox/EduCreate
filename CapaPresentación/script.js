@@ -10,32 +10,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.getElementById('usuarioForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const apellido = document.getElementById('apellido').value;
     const correoElectronico = document.getElementById('correo_electronico').value;
-    const contrasena = document.getElementById('contrasena').value;
-    const genero = document.getElementById('genero').value;
-    const numeroTelefono = document.getElementById('numero_telefono').value;
-    
-    fetch('http://localhost:3000/usuarios', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre, apellido, correoElectronico, contrasena, genero, numeroTelefono }),
-    })
+
+    // Primero, verifica si el correo ya está registrado
+    fetch(`http://localhost:3000/usuarios?correoElectronico=${correoElectronico}`)
     .then(response => response.json())
-    .then(() => {
-        fetchUsersData(); // Recargar lista de usuarios
-        // Limpiar campos
-        document.getElementById('nombre').value = '';
-        document.getElementById('apellido').value = '';
-        document.getElementById('correo_electronico').value = '';
-        document.getElementById('contrasena').value = '';
-        document.getElementById('genero').value = '';
-        document.getElementById('numero_telefono').value = '';
+    .then(data => {
+        console.log(data); // Agregado para depurar la respuesta de la API
+        // Asegúrate de que esta condición refleje correctamente cómo la API indica un correo ya registrado
+        const emailExist = data.find(user => user.correoElectronico === correoElectronico);
+
+        if (emailExist) {
+            alert('The email is already registered');
+            return;
+        }
+        // Si no se encuentra el correo, procede con el registro
+        const nombre = document.getElementById('nombre').value;
+        const apellido = document.getElementById('apellido').value;
+        const contrasena = document.getElementById('contrasena').value;
+        const genero = document.getElementById('genero').value;
+        const numeroTelefono = document.getElementById('numero_telefono').value;
+
+        fetch('http://localhost:3000/usuarios', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre, apellido, correoElectronico, contrasena, genero, numeroTelefono }),
+        })
+        .then(response => response.json())
+        .then(() => {
+            fetchUsersData(); // Recargar lista de usuarios
+            // Limpiar campos
+            document.getElementById('nombre').value = '';
+            document.getElementById('apellido').value = '';
+            document.getElementById('correo_electronico').value = '';
+            document.getElementById('contrasena').value = '';
+            document.getElementById('genero').value = '';
+            document.getElementById('numero_telefono').value = '';
+            alert('Successfully registered');
+            window.location.href = 'login.html';
+        })
+        .catch(error => console.error('Error al agregar usuario:', error));
     })
-    .catch(error => console.error('Error al agregar usuario:', error));
+    .catch(error => console.error('Error al verificar el correo electrónico:', error));
 });
 
 function fetchUsersData() {

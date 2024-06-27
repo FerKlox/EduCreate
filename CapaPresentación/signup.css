@@ -36,8 +36,19 @@ body {
 
 .signup-form input[type="text"],
 .signup-form input[type="email"],
-.signup-form input[type="password"] {
+.signup-form input[type="password"],
+.signup-form input[type="text"],
+.signup-form input[type="tel"],
+.signup-form input[name="gender"] {
     width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.signup-form select {
+    width: 100%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -129,14 +140,14 @@ body {
 }
 
 .signup-image {
-    width: 50%;
-    background-color: #f7f7f7;
-    display: flex;
-    justify-content: center;
+ /* Ajusta el ancho del div al 100% de su contenedor */
+    height: auto; /* Ajusta la altura automáticamente para mantener la proporción de la imagen */
+    display: flex; /* Utiliza flexbox para centrar la imagen */
+    justify-content: center; /* Centra la imagen horizontalmente */
     align-items: center;
 }
 
 .signup-image img {
-    max-width: 100%;
+    width: 100%; /* Hace que la imagen llene el ancho del div */
     height: auto;
 }
