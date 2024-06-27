@@ -51,6 +51,57 @@ app.delete('/items/:id', async (req, res) => {
   res.status(204).send();
 });
 
+// Esquema para los datos de Usuario
+const usuarioSchema = new mongoose.Schema({
+  nombre: String,
+  apellido: String,
+  correoElectronico: String,
+  contrasena: String,
+  genero: String,
+  numeroTelefono: String
+}, { versionKey: false }); // Desactiva el campo __v
+
+// Modelo basado en el esquema
+const Usuario = mongoose.model('Usuario', usuarioSchema);
+
+// Rutas CRUD para Usuario
+app.post('/usuarios', (req, res) => {
+  const nuevoUsuario = new Usuario({
+      nombre: req.body.nombre,
+      apellido: req.body.apellido,
+      correoElectronico: req.body.correoElectronico,
+      contrasena: req.body.contrasena,
+      genero: req.body.genero,
+      numeroTelefono: req.body.numeroTelefono
+  });
+
+  nuevoUsuario.save()
+      .then(usuario => res.status(201).json(usuario)) // Devuelve el usuario completo
+      .catch(error => res.status(400).json({ error: 'Error al agregar el usuario' }));
+});
+
+app.get('/usuarios', async (req, res) => {
+  const usuarios = await Usuario.find();
+  res.status(200).send(usuarios);
+});
+
+app.put('/usuarios/:id', async (req, res) => {
+  const usuarioActualizado = await Usuario.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.status(200).send(usuarioActualizado);
+});
+
+app.delete('/usuarios/:id', async (req, res) => {
+  await Usuario.findByIdAndDelete(req.params.id);
+  res.status(204).send();
+});
+
+
+
+
+
+
+
+
 // Iniciar el servidor
 app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
 
