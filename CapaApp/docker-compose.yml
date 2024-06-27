@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  api-rest:
+    build: ./
+    container_name: api-rest
+    environment:
+      - MONGO_URL=mongodb://mongo-server:27017/prueba
+    ports:
+      - "3000:3000"
+    networks:
+      - mongodb_network
+networks:
+  mongodb_network:
+    external: true
+
+#al inicio o cuando has hecho varios cambios docker-compose up --build 
+#cuando esta listo y solo para iniciar docker-compose up -d
+
+#Prueba en POSTAMAN asi:
+#curl -X POST http://localhost:3000/items \ -H 'Content-Type: application/json' \ -d '{"name": "Item Name", "quantity": 10}'
+#y revisar con GET curl http://localhost:3000/items

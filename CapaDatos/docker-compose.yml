@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  mongo-server:
+    image: mongo:7.0.11
+    container_name: mongo-server
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - mongodb_network
+    ports:
+      - "27018:27017" 
+  mongo-client:
+    image: mongo-express:latest
+    container_name: mongo-client
+    restart: always
+    depends_on:
+      - mongo-server
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo-server
+      - ME_CONFIG_MONGODB_PORT=27017
+    ports:
+      - "8081:8081"
+    networks:
+      - mongodb_network
+volumes:
+  mongodb_data:
+networks:
+  mongodb_network:
+    name: mongodb_network
+    driver: bridge
+
+# Usa el puerto 27018 en lugar del 27017 para evitar conflictos con una posible instalación local de MongoDB
+
+#Comandos que usaras:
+#docker-compose up -d
+#docker-compose down
+#docker-compose ps
+#docker-compose logs
+#Para probar en el navegador: http://localhost:8081/
+#para probar en mongocompass: mongodb://localhost:27018
