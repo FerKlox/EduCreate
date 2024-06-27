@@ -560,7 +560,7 @@ document.getElementById('usuarioCursoForm').addEventListener('submit', function(
     };
 
     // Enviar los datos al API
-    fetch('http://tuapi.com/usuario-cursos', {
+    fetch('http://localhost:3000/usuario-cursos', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -571,6 +571,7 @@ document.getElementById('usuarioCursoForm').addEventListener('submit', function(
     .then(data => {
         console.log('Inscripción agregada:', data);
         // Aquí puedes agregar código para manejar la respuesta, como actualizar la UI
+        fetchUsuariosCursoData();
     })
     .catch(error => {
         console.error('Error al agregar inscripción:', error);
