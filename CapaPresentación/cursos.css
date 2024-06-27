@@ -1,0 +1,145 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+.logo img {
+    width: 100px;
+}
+
+.search-bar input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.banner {
+    background-color: #e74c3c;
+    color: white;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.container {
+    display: flex;
+    padding: 20px;
+}
+
+.filter-courses {
+    width: 20%;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.filter-group input, .filter-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.courses {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.course-card {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.course-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.course-info {
+    padding: 20px;
+}
+
+.course-info h3 {
+    margin: 0 0 10px 0;
+}
+
+.course-info p {
+    margin: 5px 0;
+}
+
+.course-info .price {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.footer-content div {
+    width: 25%;
+}
+
+.footer-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-content ul li {
+    margin-bottom: 10px;
+}
+
+.newsletter form {
+    display: flex;
+    flex-direction: column;
+}
+
+.newsletter input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.newsletter button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e74c3c;
+    color: white;
+    cursor: pointer;
+}

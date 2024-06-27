@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Courses</title>
+    <link rel="stylesheet" href="./cursos.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="DevsHunt Logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more...">
+        </div>
+        <div class="user-options">
+            <!-- Add user options icons here -->
+        </div>
+    </header>
+    <main>
+        <div class="banner">
+            <h1>All Courses</h1>
+            <p>Let's Learn The World Most Usefull Tutorials & Grow Together...</p>
+        </div>
+        <div class="container">
+            <aside class="filter-courses">
+                <h2>Filter Courses</h2>
+                <div class="filter-group">
+                    <label for="search">Search By Course Name</label>
+                    <input type="text" id="search" name="search">
+                </div>
+                <div class="filter-group">
+                    <label for="price">Price</label>
+                    <input type="range" id="price" name="price" min="5" max="19">
+                </div>
+                <div class="filter-group">
+                    <label>On Sale</label>
+                    <input type="checkbox" id="on-sale" name="on-sale">
+                </div>
+                <div class="filter-group">
+                    <label>Sales</label>
+                    <select>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Rating</label>
+                    <select>
+                        <option value="all">Show all</option>
+                        <option value="1">1 star and higher</option>
+                        <option value="2">2 stars and higher</option>
+                        <option value="3">3 stars and higher</option>
+                        <option value="4">4 stars and higher</option>
+                    </select>
+                </div>
+            </aside>
+            <section class="courses">
+                <div class="course-card">
+                    <img src="course-thumbnail.jpg" alt="Course Thumbnail">
+                    <div class="course-info">
+                        <h3>Complete Python Bootcamp From Zero to Hero in Python</h3>
+                        <p>32 Lessons</p>
+                        <p class="price">$2400</p>
+                    </div>
+                </div>
+                <!-- Repeat .course-card for more courses -->
+            </section>
+        </div>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <p>Call Us: 800 388 80 90 or 667 234 32 67</p>
+                <p>Email: hello@jexi.com</p>
+                <p>9 AM - 5 PM DC, Monday - Friday</p>
+                <p>PO Box 567 Hosstin st. 433, Los Angeles California, US.</p>
+            </div>
+            <div class="links">
+                <ul>
+                    <li>Start Here</li>
+                    <li>Blogs</li>
+                    <li>About Us</li>
+                    <li>Contact Us</li>
+                    <li>Career</li>
+                    <li>Courses</li>
+                    <li>Demo Account</li>
+                </ul>
+            </div>
+            <div class="information">
+                <ul>
+                    <li>Products</li>
+                    <li>Start Here</li>
+                    <li>Membership Levels</li>
+                    <li>Purchase Guide</li>
+                    <li>Become a Teacher</li>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <p>Sign Up For Our Newsletter</p>
+                <form>
+                    <input type="email" placeholder="Your e-mail">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

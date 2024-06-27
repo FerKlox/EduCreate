@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.signup-container {
+    display: flex;
+    max-width: 900px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.signup-form {
+    padding: 40px;
+    width: 50%;
+}
+
+.signup-form h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.signup-form label {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.terms-policy {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.terms-policy input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.terms-policy a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff5252;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.or-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.or-divider span {
+    background-color: #fff;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.or-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ccc;
+    z-index: 0;
+}
+
+.social-signup {
+    display: flex;
+    justify-content: space-between;
+}
+
+.social-signup button {
+    width: 48%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.google-signup {
+    background-color: #fff;
+}
+
+.apple-signup {
+    background-color: #000;
+    color: #fff;
+}
+
+.sign-in {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sign-in a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.signup-image {
+    width: 50%;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-image img {
+    max-width: 100%;
+    height: auto;
+}

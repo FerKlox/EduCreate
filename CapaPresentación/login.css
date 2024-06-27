@@ -1,0 +1,148 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    display: flex;
+    max-width: 900px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.login-form {
+    padding: 40px;
+    width: 50%;
+}
+
+.login-form h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.login-form p {
+    color: #666;
+}
+
+.login-form label {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    margin-top: 5px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.remember-me input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff5252;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.or-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.or-divider span {
+    background-color: #fff;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.or-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #ccc;
+    z-index: 0;
+}
+
+.social-login {
+    display: flex;
+    justify-content: space-between;
+}
+
+.social-login button {
+    width: 48%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.google-login {
+    background-color: #fff;
+}
+
+.apple-login {
+    background-color: #000;
+    color: #fff;
+}
+
+.sign-up {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sign-up a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-image {
+    width: 50%;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-image img {
+    max-width: 100%;
+    height: auto;
+}

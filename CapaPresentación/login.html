@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <h2>Welcome back!</h2>
+            <p>Enter your Credentials to access your account</p>
+            <form>
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <a href="#" class="forgot-password">forgot password</a>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="remember-me" name="remember-me">
+                    <label for="remember-me">Remember for 30 days</label>
+                </div>
+                
+                <button type="submit" class="login-button">Login</button>
+                
+                <div class="or-divider">
+                    <span>Or</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="google-login">Sign in with Google</button>
+                    <button type="button" class="apple-login">Sign in with Apple</button>
+                </div>
+                
+                <p class="sign-up">Don't have an account? <a href="#">Sign Up</a></p>
+            </form>
+        </div>
+        <div class="login-image">
+            <img src="login-image.jpg" alt="Login Image">
+        </div>
+    </div>
+</body>
+</html>
