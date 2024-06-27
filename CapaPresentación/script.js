@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', fetchData);
+document.addEventListener('DOMContentLoaded', fetchUsers);
 
 //USUARIO
 
