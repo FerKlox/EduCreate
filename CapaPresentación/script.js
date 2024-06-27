@@ -34,6 +34,7 @@ function fetchData() {
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             thead.innerHTML = `<tr>
+                <th>ID</th> <!-- Nueva columna para ID -->
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Edad</th>
@@ -46,8 +47,9 @@ function fetchData() {
             data.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${item._id}</td> <!-- Mostrar el _id aquí -->
                     <td>${item.nombre}</td>
-                    <td>${item.apellido}</td> <!-- Corregido de 'apeliido' a 'apellido' -->
+                    <td>${item.apellido}</td>
                     <td>${item.edad}</td>
                     <td>
                         <button onclick="editItem('${item._id}', '${item.nombre}')">Editar</button>
