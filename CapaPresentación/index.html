@@ -8,6 +8,14 @@
 </head>
 <body>
     <div id="apiData"></div>
+    <form id="crudForm">
+        <input type="text" id="inputNombre" placeholder="Nombre" />
+        <input type="text" id="inputApellido" placeholder="Apellido" />
+        <input type="number" id="inputEdad" placeholder="Edad" />
+        <button type="submit">Agregar</button>
+    </form>
+
+    <!--
 
     <form id="usuarioForm">
         <input type="hidden" id="usuario_ID">
@@ -25,7 +33,54 @@
         <button type="submit">Agregar</button>
     </form>
 
+    <form id="cursoForm">
+        <input type="hidden" id="curso_ID">
+        <input type="text" id="titulo" placeholder="Título">
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <input type="date" id="fecha_creacion" placeholder="Fecha de Creación">
+        <input type="number" id="duracion" placeholder="Duración (en horas)">
+        <input type="number" id="materia_curs" placeholder="Código de Materia">
+        <input type="text" id="url_video" placeholder="URL del Video">
+        <button type="submit">Agregar</button>
+    </form>
+
+    <form id="contenidoCursoForm">
+        <input type="hidden" id="contenido_ID">
+        <input type="number" id="curso_ID" placeholder="ID del Curso">
+        <input type="text" id="tipo_contenido" placeholder="Tipo de Contenido">
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <input type="text" id="url_video" placeholder="URL del Video">
+        <button type="submit">Agregar</button>
+    </form>
+
+    <form id="comentarioForm">
+        <input type="hidden" id="comentario_ID">
+        <input type="number" id="curso_ID" placeholder="ID del Curso">
+        <input type="number" id="usuario_ID" placeholder="ID del Usuario">
+        <textarea id="contenido" placeholder="Contenido del Comentario"></textarea>
+        <input type="datetime-local" id="fecha_publicacion" placeholder="Fecha de Publicación">
+        <button type="submit">Agregar</button>
+    </form>
+
+    <form id="usuarioCursoForm">
+        <input type="hidden" id="usuario_curso_ID">
+        <input type="number" id="usuario_ID" placeholder="ID del Usuario">
+        <input type="number" id="curso_ID" placeholder="ID del Curso">
+        <input type="datetime-local" id="fecha_inscripcion" placeholder="Fecha de Inscripción">
+        <button type="submit">Agregar</button>
+    </form>
+
+    <form id="notificacionForm">
+        <input type="hidden" id="notificacion_ID">
+        <input type="number" id="usuario_ID" placeholder="ID del Usuario">
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
+        <input type="date" id="fecha_envio" placeholder="Fecha de Envío">
+        <input type="time" id="hora_envio" placeholder="Hora de Envío">
+        <button type="submit">Agregar</button>
+    </form>
+    
+    -->
+
     <script src="script.js"></script>
 </body>
 </html>
-
