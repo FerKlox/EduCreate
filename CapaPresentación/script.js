@@ -1,5 +1,7 @@
-document.addEventListener('DOMContentLoaded', fetchData);
-document.addEventListener('DOMContentLoaded', fetchUserData);
+document.addEventListener('DOMContentLoaded', function() {
+    fetchData();
+    fetchUserData();
+});
 
 document.getElementById('crudForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -28,7 +30,7 @@ function fetchData() {
     fetch('http://localhost:3000/items')
         .then(response => response.json())
         .then(data => {
-            const list = document.getElementById('apiData');
+            const list = document.getElementById('itemsData');
             list.innerHTML = ''; // Limpiar lista anterior
 
             // Crear tabla y cabecera
@@ -95,12 +97,12 @@ function deleteItem(id) {
 
 document.getElementById('usuarioForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    const nombre = document.getElementById('inputNombre').value;
-    const apellido = document.getElementById('inputApellido').value;
-    const correoElectronico = document.getElementById('inputEmail').value;
-    const contrasena = document.getElementById('inputContrasena').value;
-    const genero = document.getElementById('inputGenero').value;
-    const numeroTelefono = document.getElementById('inputTelefono').value;
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const correoElectronico = document.getElementById('correo_electronico').value;
+    const contrasena = document.getElementById('contrasena').value;
+    const genero = document.getElementById('genero').value;
+    const numeroTelefono = document.getElementById('numero_telefono').value;
     
     fetch('http://localhost:3000/usuarios', {
         method: 'POST',
@@ -111,14 +113,14 @@ document.getElementById('usuarioForm').addEventListener('submit', function(event
     })
     .then(response => response.json())
     .then(() => {
-        fetchData(); // Recargar lista
+        fetchUserData(); // Recargar lista de usuarios
         // Limpiar campos
-        document.getElementById('inputNombre').value = '';
-        document.getElementById('inputApellido').value = '';
-        document.getElementById('inputEmail').value = '';
-        document.getElementById('inputContrasena').value = '';
-        document.getElementById('inputGenero').value = '';
-        document.getElementById('inputTelefono').value = '';
+        document.getElementById('nombre').value = '';
+        document.getElementById('apellido').value = '';
+        document.getElementById('correo_electronico').value = '';
+        document.getElementById('contrasena').value = '';
+        document.getElementById('genero').value = '';
+        document.getElementById('numero_telefono').value = '';
     })
     .catch(error => console.error('Error al agregar usuario:', error));
 });
@@ -127,7 +129,7 @@ function fetchUserData() {
     fetch('http://localhost:3000/usuarios')
         .then(response => response.json())
         .then(data => {
-            const list = document.getElementById('apiData');
+            const list = document.getElementById('usersData');
             list.innerHTML = ''; // Limpiar lista anterior
 
             // Crear tabla y cabecera
