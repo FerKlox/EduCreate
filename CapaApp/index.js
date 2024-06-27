@@ -15,8 +15,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 
 // Esquema y modelo para Usuario
-const usuarioSchema = new mongoose.Schema({
-  usuario_ID: { type: Number, required: true, unique: true },
+const usuarioSchema = new mongoose.Schema({  
   nombre: { type: String, required: true },
   apellido: { type: String, required: true },
   correo_electronico: { type: String, required: true },
@@ -65,8 +64,7 @@ app.delete('/usuarios/:id', async (req, res) => {
 });
 
 // Esquema y modelo para Curso
-const cursoSchema = new mongoose.Schema({
-  curso_ID: { type: Number, required: true, unique: true },
+const cursoSchema = new mongoose.Schema({  
   titulo: { type: String, required: true },
   descripcion: String,
   fecha_creacion: { type: Date, required: true },
@@ -78,8 +76,7 @@ const Curso = mongoose.model('Curso', cursoSchema);
 
 // Rutas CRUD para Curso
 app.post('/cursos', async (req, res) => {
-  const nuevoCurso = new Curso({
-    curso_ID: req.body.curso_ID,
+  const nuevoCurso = new Curso({    
     titulo: req.body.titulo,
     descripcion: req.body.descripcion,
     fecha_creacion: req.body.fecha_creacion,
@@ -124,8 +121,7 @@ app.delete('/cursos/:id', async (req, res) => {
 });
 
 // Esquema y modelo para Contenido_Curso
-const contenidoCursoSchema = new mongoose.Schema({
-  contenido_ID: { type: Number, required: true, unique: true },
+const contenidoCursoSchema = new mongoose.Schema({  
   curso_ID: { type: Number, required: true },
   tipo_contenido: { type: String, required: true },
   descripcion: String,
@@ -134,15 +130,14 @@ const contenidoCursoSchema = new mongoose.Schema({
 contenidoCursoSchema.virtual('curso', {
   ref: 'Curso',
   localField: 'curso_ID',
-  foreignField: 'curso_ID',
+  foreignField: '_id',
   justOne: true
 }, { versionKey: false });
 const ContenidoCurso = mongoose.model('Contenido_Curso', contenidoCursoSchema);
 
 // Rutas CRUD para Contenido_Curso
 app.post('/contenido_cursos', async (req, res) => {
-  const nuevoContenidoCurso = new ContenidoCurso({
-    contenido_ID: req.body.contenido_ID,
+  const nuevoContenidoCurso = new ContenidoCurso({    
     curso_ID: req.body.curso_ID,
     titulo: req.body.titulo,
     descripcion: req.body.descripcion,
@@ -185,8 +180,7 @@ app.delete('/contenido_cursos/:id', async (req, res) => {
 });
 
 // Esquema y modelo para Comentario
-const comentarioSchema = new mongoose.Schema({
-  comentario_ID: { type: Number, required: true, unique: true },
+const comentarioSchema = new mongoose.Schema({  
   curso_ID: { type: Number, required: true },
   usuario_ID: { type: Number, required: true },
   contenido: String,
@@ -196,8 +190,7 @@ const Comentario = mongoose.model('Comentario', comentarioSchema);
 
 // Rutas CRUD para Comentario
 app.post('/comentarios', async (req, res) => {
-  const nuevoComentario = new Comentario({
-    comentario_ID: req.body.comentario_ID,
+  const nuevoComentario = new Comentario({    
     usuario_ID: req.body.usuario_ID,
     curso_ID: req.body.curso_ID,
     contenido: req.body.contenido,
@@ -240,8 +233,7 @@ app.delete('/comentarios/:id', async (req, res) => {
 });
 
 // Esquema y modelo para Usuario_curso
-const usuarioCursoSchema = new mongoose.Schema({
-  usuario_curso_ID: { type: Number, required: true, unique: true },
+const usuarioCursoSchema = new mongoose.Schema({  
   usuario_ID: { type: Number, required: true },
   curso_ID: { type: Number, required: true },
   fecha_inscripcion: { type: Date, required: true }
@@ -250,8 +242,7 @@ const UsuarioCurso = mongoose.model('Usuario_curso', usuarioCursoSchema);
 
 // Rutas CRUD para Usuario_Curso
 app.post('/usuario_cursos', async (req, res) => {
-  const nuevoUsuarioCurso = new UsuarioCurso({
-    usuario_curso_ID: req.body.usuario_curso_ID,
+  const nuevoUsuarioCurso = new UsuarioCurso({    
     usuario_ID: req.body.usuario_ID,
     curso_ID: req.body.curso_ID,
     fecha_inscripcion: req.body.fecha_inscripcion,
@@ -294,8 +285,7 @@ app.delete('/usuario_cursos/:id', async (req, res) => {
 });
 
 // Esquema y modelo para Notificacion
-const notificacionSchema = new mongoose.Schema({
-  notificacion_ID: { type: Number, required: true, unique: true },
+const notificacionSchema = new mongoose.Schema({  
   usuario_ID: { type: Number, required: true },
   descripcion: String,
   fecha_envio: { type: Date, required: true },
@@ -305,8 +295,7 @@ const Notificacion = mongoose.model('Notificacion', notificacionSchema);
 
 // Rutas CRUD para Notificacion
 app.post('/notificaciones', async (req, res) => {
-  const nuevaNotificacion = new Notificacion({
-    notificacion_ID: req.body.notificacion_ID,
+  const nuevaNotificacion = new Notificacion({    
     usuario_ID: req.body.usuario_ID,
     curso_ID: req.body.curso_ID,
     contenido: req.body.contenido,
