@@ -95,7 +95,49 @@ app.delete('/usuarios/:id', async (req, res) => {
   res.status(204).send();
 });
 
+// Esquema para los datos de Curso
+const cursoSchema = new mongoose.Schema({
+  titulo: String,
+  descripcion: String,
+  fechaCreacion: Date,
+  duracion: Number,
+  materiaCurs: Number,
+  urlVideo: String
+}, { versionKey: false }); // Desactiva el campo __v
 
+// Modelo basado en el esquema
+const Curso = mongoose.model('Curso', cursoSchema);
+
+// Rutas CRUD para Curso
+app.post('/cursos', (req, res) => {
+  const nuevoCurso = new Curso({
+      titulo: req.body.titulo,
+      descripcion: req.body.descripcion,
+      fechaCreacion: req.body.fechaCreacion,
+      duracion: req.body.duracion,
+      materiaCurs: req.body.materiaCurs,
+      urlVideo: req.body.urlVideo
+  });
+
+  nuevoCurso.save()
+      .then(curso => res.status(201).json(curso)) // Devuelve el curso completo
+      .catch(error => res.status(400).json({ error: 'Error al agregar el curso' }));
+});
+
+app.get('/cursos', async (req, res) => {
+  const cursos = await Curso.find();
+  res.status(200).send(cursos);
+});
+
+app.put('/cursos/:id', async (req, res) => {
+  const cursoActualizado = await Curso.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.status(200).send(cursoActualizado);
+});
+
+app.delete('/cursos/:id', async (req, res) => {
+  await Curso.findByIdAndDelete(req.params.id);
+  res.status(204).send();
+});
 
 
 
