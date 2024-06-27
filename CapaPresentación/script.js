@@ -51,11 +51,10 @@ function fetchData() {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${item._id}</td> <!-- Mostrar el _id aquí -->
-                    <td>${item.nombre}</td>
-                    <td>${item.apellido}</td>
-                    <td>${item.edad}</td>
-                    <td>
-                        <button onclick="editItem('${item._id}', '${item.nombre}')">Editar</button>
+                    <td>${item.nombre} <button onclick="editItemName('${item._id}', '${item.nombre}')">Editar</button></td>
+                    <td>${item.apellido} <button onclick="editItemApellido('${item._id}', '${item.apellido}')">Editar</button></td>
+                    <td>${item.edad} <button onclick="editItemEdad('${item._id}', '${item.edad}')">Editar</button></td>
+                    <td>                        
                         <button onclick="deleteItem('${item._id}')">Eliminar</button>
                     </td>
                 `;
@@ -69,7 +68,7 @@ function fetchData() {
         .catch(error => console.error('Error al acceder a la API:', error));
 }
 
-function editItem(id, currentName) {
+function editItemName(id, currentName) {
     const newName = prompt("Editar elemento", currentName);
     if (newName) {
         // Asegurarse de que la solicitud PUT use la estructura correcta
@@ -85,6 +84,38 @@ function editItem(id, currentName) {
     }
 }
 
+function editItemApellido(id, dato) {
+    const newobj = prompt("Editar elemento", dato);
+    if (newobj) {
+        // Asegurarse de que la solicitud PUT use la estructura correcta
+        fetch(`http://localhost:3000/items/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ apellido: newobj }), // Consistente con la estructura de los elementos
+        })
+        .then(() => fetchData())
+        .catch(error => console.error('Error al editar elemento:', error));
+    }
+}
+
+function editItemEdad(id, dato) {
+    const newobj = prompt("Editar elemento", dato);
+    if (newobj) {
+        // Asegurarse de que la solicitud PUT use la estructura correcta
+        fetch(`http://localhost:3000/items/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ edad: newobj }), // Consistente con la estructura de los elementos
+        })
+        .then(() => fetchData())
+        .catch(error => console.error('Error al editar elemento:', error));
+    }
+}
+
 function deleteItem(id) {
     if (confirm("¿Estás seguro de querer eliminar este elemento?")) {
         fetch(`http://localhost:3000/items/${id}`, {
@@ -94,6 +125,8 @@ function deleteItem(id) {
         .catch(error => console.error('Error al eliminar elemento:', error));
     }
 }
+
+//USUARIOS
 
 document.getElementById('usuarioForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -152,13 +185,12 @@ function fetchUserData() {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${item._id}</td>
-                    <td>${item.nombre}</td>
-                    <td>${item.apellido}</td>
-                    <td>${item.correoElectronico}</td>
-                    <td>${item.genero}</td>
-                    <td>${item.numeroTelefono}</td>
-                    <td>
-                        <button onclick="editItem('${item._id}')">Editar</button>
+                    <td>${item.nombre} <button onclick="editUserName('${item._id}', '${item.nombre}')">Editar</button></td>
+                    <td>${item.apellido} <button onclick="editUserApellido('${item._id}', '${item.apellido}')">Editar</button></td>
+                    <td>${item.correoElectronico} <button onclick="editUserCorreoElectronico('${item._id}', '${item.correoElectronico}')">Editar</button></td>
+                    <td>${item.genero} <button onclick="editUserGenero('${item._id}', '${item.genero}')">Editar</button></td>
+                    <td>${item.numeroTelefono} <button onclick="editUserNumeroTelefono('${item._id}', '${item.numeroTelefono}')">Editar</button></td>
+                    <td>                        
                         <button onclick="deleteItem('${item._id}')">Eliminar</button>
                     </td>
                 `;
@@ -172,12 +204,89 @@ function fetchUserData() {
         .catch(error => console.error('Error al acceder a la API:', error));
 }
 
+function editUserName(id, currentNombre) {
+    const newName = prompt("Editar elemento", currentNombre);
+    if (newName) {
+        // Asegurarse de que la solicitud PUT use la estructura correcta
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ nombre: newName }), // Consistente con la estructura de los elementos
+        })
+        .then(() => fetchUserData())
+        .catch(error => console.error('Error al editar elemento:', error));
+    }
+}
+
+function editUserApellido(id, currentApellido) {
+    const newApellido = prompt("Editar apellido", currentApellido);
+    if (newApellido) {
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ apellido: newApellido }),
+        })
+        .then(() => fetchUserData())
+        .catch(error => console.error('Error al editar apellido:', error));
+    }
+}
+
+function editUserCorreoElectronico(id, currentCorreoElectronico) {
+    const newCorreoElectronico = prompt("Editar correo electrónico", currentCorreoElectronico);
+    if (newCorreoElectronico) {
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ correoElectronico: newCorreoElectronico }),
+        })
+        .then(() => fetchUserData())
+        .catch(error => console.error('Error al editar correo electrónico:', error));
+    }
+}
+
+function editUserGenero(id, currentGenero) {
+    const newGenero = prompt("Editar género", currentGenero);
+    if (newGenero) {
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ genero: newGenero }),
+        })
+        .then(() => fetchUserData())
+        .catch(error => console.error('Error al editar género:', error));
+    }
+}
+
+function editUserNumeroTelefono(id, currentNumeroTelefono) {
+    const newNumeroTelefono = prompt("Editar número de teléfono", currentNumeroTelefono);
+    if (newNumeroTelefono) {
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ numeroTelefono: newNumeroTelefono }),
+        })
+        .then(() => fetchUserData())
+        .catch(error => console.error('Error al editar número de teléfono:', error));
+    }
+}
+
+
 function deleteUser(id) {
     if (confirm("¿Estás seguro de querer eliminar este usuario?")) {
         fetch(`http://localhost:3000/usuarios/${id}`, {
             method: 'DELETE',
         })
-        .then(() => fetchData())
+        .then(() => fetchUserData())
         .catch(error => console.error('Error al eliminar usuario:', error));
     }
 }
