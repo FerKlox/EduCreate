@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (user) {
                 alert("Login successful!");
                 localStorage.setItem('userId', user._id);
-                window.location.href = `/dashboard.html?userId=${user._id}`; // Ajusta esta URL a tu página de destino
+                window.location.href = `/cursos.html?userId=${user._id}`; // Ajusta esta URL a tu página de destino
             } else {
                 throw new Error('Login failed: Incorrect email or password.');
             }

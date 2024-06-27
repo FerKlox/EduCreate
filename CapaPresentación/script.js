@@ -71,6 +71,7 @@ function fetchUsersData() {
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Correo Electrónico</th>
+                <th>Contraseña</th>
                 <th>Género</th>
                 <th>Número de Teléfono</th>
                 <th>Acciones</th>
@@ -86,6 +87,7 @@ function fetchUsersData() {
                     <td>${item.nombre} <button onclick="editUserName('${item._id}', '${item.nombre}')">Editar</button></td>
                     <td>${item.apellido} <button onclick="editUserApellido('${item._id}', '${item.apellido}')">Editar</button></td>
                     <td>${item.correoElectronico} <button onclick="editUserCorreoElectronico('${item._id}', '${item.correoElectronico}')">Editar</button></td>
+                    <td>${item.contrasena} <button onclick="editUserContrasena('${item._id}', '${item.contrasena}')">Editar</button></td>
                     <td>${item.genero} <button onclick="editUserGenero('${item._id}', '${item.genero}')">Editar</button></td>
                     <td>${item.numeroTelefono} <button onclick="editUserNumeroTelefono('${item._id}', '${item.numeroTelefono}')">Editar</button></td>
                     <td>                        
@@ -147,7 +149,20 @@ function editUserCorreoElectronico(id, currentCorreoElectronico) {
         .catch(error => console.error('Error al editar correo electrónico:', error));
     }
 }
-
+function editUserContrasena(id, currentContrasena) {
+    const newContrasena = prompt("Editar contraseña", currentContrasena);
+    if (newContrasena) {
+        fetch(`http://localhost:3000/usuarios/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ contrasena: newContrasena }),
+        })
+        .then(() => fetchUsersData())
+        .catch(error => console.error('Error al editar contraseña:', error));
+    }
+}
 function editUserGenero(id, currentGenero) {
     const newGenero = prompt("Editar género", currentGenero);
     if (newGenero) {

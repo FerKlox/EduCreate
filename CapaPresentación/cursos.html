@@ -11,10 +11,10 @@
         <div class="header-content">
             <h1>EduCreate</h1>            
         </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more...">
-        </div>
-        <div class="user-options">
+        
+        <div class="user-detail">
+            <a class="course-button">Log Out</a>
+            <a class="course-button">btn1</a>
             <!-- Add user options icons here -->
         </div>
     </header>
@@ -25,37 +25,24 @@
         </div>
         <div class="container">
             <aside class="filter-courses">
-                <h2>Filter Courses</h2>
-                <div class="filter-group">
-                    <label for="search">Search By Course Name</label>
-                    <input type="text" id="search" name="search">
-                </div>
-                <div class="filter-group">
-                    <label for="price">Price</label>
-                    <input type="range" id="price" name="price" min="5" max="19">
-                </div>
-                <div class="filter-group">
-                    <label>On Sale</label>
-                    <input type="checkbox" id="on-sale" name="on-sale">
-                </div>
-                <div class="filter-group">
-                    <label>Sales</label>
-                    <select>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label>Rating</label>
-                    <select>
-                        <option value="all">Show all</option>
-                        <option value="1">1 star and higher</option>
-                        <option value="2">2 stars and higher</option>
-                        <option value="3">3 stars and higher</option>
-                        <option value="4">4 stars and higher</option>
-                    </select>
-                </div>
+                <form id="filterform">
+                        <h2>Filter Courses</h2>                
+                    <div class="filter-group">
+                        <label for="duration_course">Duración (Horas):</label> <span id="duration_course-value"></span>
+                        <input type="range" id="duration_course" name="duration_course" min="8" max="360" >                    
+                    </div>       
+                    
+                    <div class="filter-group">
+                        <label>Sales</label>
+                        <select id="language_course">
+                            <option value="" disabled selected>Seleccione un curso</option>
+                            <option value="NodeJs">NodeJs</option>
+                            <option value="Cpp">C++</option>
+                            <option value="Python">Python</option>
+                        </select>
+                    </div>
+                    <button type="submit">Buscar</button>                
+                </form>                
             </aside>
             
             <section class="courses">
