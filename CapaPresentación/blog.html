@@ -5,16 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Listing Page</title>
     <link rel="stylesheet" href="/blog.css">
+    <link rel="stylesheet" href="/cursos.css">
 </head>
 <body>
-    <header class="header">
+    <header>
         <div class="header-content">
-            <h1>EduCreate</h1>
-            <nav class="nav">
-                <a href="#">Courses</a>
-                <a href="#">My Courses</a>
-                <a href="#" class="logout-button">Log Out</a>
-            </nav>
+            <h1>EduCreate</h1>            
+        </div>
+        
+        <div class="user-detail">
+
+            <a class="course-button" href="cursos.html">All my Courses</a>
+            <a class="course-button" href="blog.html">My Courses</a>
+            <button class="course-button" onclick="logout()">Log Out</button>
+            <!-- Add user options icons here -->
         </div>
     </header>
 
@@ -26,46 +30,9 @@
                     <input type="text" placeholder="Search">
                 </div>
             </div>
-            <div class="course-card">
-                <img src="course1.jpg" alt="Course 1">
-                <div class="course-details">
-                    <h3>Best LearnPress WordPress Theme Collection For 2023</h3>
-                    <p><i class="date">Jan 24, 2023</i></p>
-                    <p>Looking for an amazing & well-functional LearnPress WordPress Theme? Online education...</p>
-                    <button class="drop-course-button">Drop out of the course</button>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="course2.jpg" alt="Course 2">
-                <div class="course-details">
-                    <h3>Best LearnPress WordPress Theme Collection For 2023</h3>
-                    <p><i class="date">Jan 24, 2023</i></p>
-                    <p>Looking for an amazing & well-functional LearnPress WordPress Theme? Online education...</p>
-                    <button class="drop-course-button">Drop out of the course</button>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="course3.jpg" alt="Course 3">
-                <div class="course-details">
-                    <h3>Best LearnPress WordPress Theme Collection For 2023</h3>
-                    <p><i class="date">Jan 24, 2023</i></p>
-                    <p>Looking for an amazing & well-functional LearnPress WordPress Theme? Online education...</p>
-                    <button class="drop-course-button">Drop out of the course</button>
-                </div>
-            </div>
-            <div class="course-card">
-                <img src="course4.jpg" alt="Course 4">
-                <div class="course-details">
-                    <h3>Best LearnPress WordPress Theme Collection For 2023</h3>
-                    <p><i class="date">Jan 24, 2023</i></p>
-                    <p>Looking for an amazing & well-functional LearnPress WordPress Theme? Online education...</p>
-                    <button class="drop-course-button">Drop out of the course</button>
-                </div>
-            </div>
-            <div class="pagination">
-                <button class="pagination-button">1</button>
-                <button class="pagination-button">2</button>
-                <button class="pagination-button">3</button>
+            <!-- Contenedor para cursos dinámicos -->
+            <div id="courses-container">
+                <!-- Los cursos se insertarán aquí dinámicamente -->
             </div>
         </section>
     </main>
@@ -116,5 +83,7 @@
             <p>© 2022 All Rights Reserved</p>
         </div>
     </footer>
+    <script src="/scripts/mycourses.js"></script>
+    <script src="/scripts/logout.js"></script>
 </body>
 </html>

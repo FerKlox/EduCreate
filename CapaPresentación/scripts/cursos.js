@@ -56,8 +56,6 @@ function fetchCursosData() {
                 courseButton.href = `/aboutcurso.html?cursoId=${curso._id}`; // Construimos la URL con la ID del curso
                 courseButton.classList.add('course-button'); // Opcional: Agregar clase para estilos
 
-                
-
                 // Agregar los elementos al courseInfo
                 courseInfo.appendChild(courseTitle);                
                 courseInfo.appendChild(courseDescription);
@@ -215,3 +213,4 @@ function fetchFilteredCursosData(duration, language) {
     document.getElementById('duration_course').value = '';
     document.getElementById('language_course').value = '';
 }
+
