@@ -13,43 +13,6 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log('Conectado a MongoDB'))
   .catch(err => console.error('No se pudo conectar a MongoDB', err));
 
-// Esquema para los datos MUY IMPORTANTE
-const itemSchema = new mongoose.Schema({
-  nombre: String,
-  apellido: String,
-  edad: Number
-}, { versionKey: false }); // Desactiva el campo __v
-
-// Modelo basado en el esquema
-const Item = mongoose.model('Item', itemSchema);
-
-// Rutas CRUD
-app.post('/items', (req, res) => {
-  const newItem = new Item({
-      nombre: req.body.nombre,
-      apellido: req.body.apellido,
-      edad: req.body.edad
-  });
-
-  newItem.save()
-      .then(item => res.status(201).json(item)) // Devuelve el item completo
-      .catch(error => res.status(400).json({ error: 'Error al agregar el elemento' }));
-});
-
-app.get('/items', async (req, res) => {
-  const items = await Item.find();
-  res.status(200).send(items);
-});
-
-app.put('/items/:id', async (req, res) => {
-  const updatedItem = await Item.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.status(200).send(updatedItem);
-});
-
-app.delete('/items/:id', async (req, res) => {
-  await Item.findByIdAndDelete(req.params.id);
-  res.status(204).send();
-});
 
 // Esquema para los datos de Usuario
 const usuarioSchema = new mongoose.Schema({
@@ -140,7 +103,141 @@ app.delete('/cursos/:id', async (req, res) => {
 });
 
 
+// Esquema para los datos de Contenido_Curso
+const contenidoCursoSchema = new mongoose.Schema({
+  cursoID: String,
+  tipoContenido: String,
+  descripcion: String,
+  urlVideo: String
+}, { versionKey: false }); // Desactiva el campo __v
 
+// Modelo basado en el esquema
+const ContenidoCurso = mongoose.model('ContenidoCurso', contenidoCursoSchema);
+
+// Rutas CRUD para Contenido_Curso
+app.post('/contenido-cursos', (req, res) => {
+  const nuevoContenidoCurso = new ContenidoCurso({
+      cursoID: req.body.cursoID,
+      tipoContenido: req.body.tipoContenido,
+      descripcion: req.body.descripcion,
+      urlVideo: req.body.urlVideo
+  });
+
+  nuevoContenidoCurso.save()
+      .then(contenidoCurso => res.status(201).json(contenidoCurso)); // Devuelve el contenido del curso completo
+});
+
+app.get('/contenido-cursos', async (req, res) => {
+  const contenidoCursos = await ContenidoCurso.find().populate('cursoID');
+  res.status(200).send(contenidoCursos);
+});
+
+app.put('/contenido-cursos/:id', async (req, res) => {
+  const contenidoCursoActualizado = await ContenidoCurso.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.status(200).send(contenidoCursoActualizado);
+});
+
+app.delete('/contenido-cursos/:id', async (req, res) => {
+  await ContenidoCurso.findByIdAndDelete(req.params.id);
+  res.status(204).send();
+});
+
+// Esquema para los datos de UsuarioCurso
+const usuarioCursoSchema = new mongoose.Schema({
+  usuarioID: String,
+  cursoID: String,
+  fechaInscripcion: {
+    type: Date,
+    required: true
+  }
+}, { versionKey: false }); // Desactiva el campo __v
+
+// Modelo basado en el esquema
+const UsuarioCurso = mongoose.model('UsuarioCurso', usuarioCursoSchema);
+
+// Rutas CRUD para UsuarioCurso
+app.post('/usuario-cursos', (req, res) => {
+  const nuevoUsuarioCurso = new UsuarioCurso({
+      usuarioID: req.body.usuarioID,
+      cursoID: req.body.cursoID,
+      fechaInscripcion: req.body.fechaInscripcion
+  });
+
+  nuevoUsuarioCurso.save()
+      .then(usuarioCurso => res.status(201).json(usuarioCurso)) // Devuelve el usuarioCurso completo
+      .catch(error => res.status(400).json({ error: 'Error al agregar el usuarioCurso' }));
+});
+
+app.get('/usuario-cursos', async (req, res) => {
+  const usuarioCursos = await UsuarioCurso.find().populate('usuarioID').populate('cursoID');
+  res.status(200).send(usuarioCursos);
+});
+
+// Modificación en la ruta PUT para actualizar sin validar la existencia previa
+app.put('/usuario-cursos/:id', async (req, res) => {
+  const usuarioCursoActualizado = await UsuarioCurso.findByIdAndUpdate(req.params.id, req.body, { new: true, upsert: false });
+  if (usuarioCursoActualizado) {
+    res.status(200).send(usuarioCursoActualizado);
+  } else {
+    res.status(404).json({ error: 'UsuarioCurso no encontrado' });
+  }
+});
+
+// Modificación en la ruta DELETE para eliminar sin validar la existencia previa
+app.delete('/usuario-cursos/:id', async (req, res) => {
+  const resultado = await UsuarioCurso.deleteOne({ _id: req.params.id });
+  if (resultado.deletedCount === 0) {
+    res.status(404).json({ error: 'UsuarioCurso no encontrado' });
+  } else {
+    res.status(204).send();
+  }
+});
+
+// Esquema para los datos de Notificacion
+const notificacionSchema = new mongoose.Schema({
+  usuarioID: String,
+  descripcion: String,
+  fechaEnvio: {
+    type: Date,
+    required: true
+  },
+  horaEnvio: {
+    type: String,
+    required: true
+  }
+}, { versionKey: false }); // Desactiva el campo __v
+
+// Modelo basado en el esquema
+const Notificacion = mongoose.model('Notificacion', notificacionSchema);
+
+// Rutas CRUD para Notificacion
+app.post('/notificaciones', (req, res) => {
+  const nuevaNotificacion = new Notificacion({
+      usuarioID: req.body.usuarioID,
+      descripcion: req.body.descripcion,
+      fechaEnvio: req.body.fechaEnvio,
+      horaEnvio: req.body.horaEnvio
+  });
+
+  nuevaNotificacion.save()
+      .then(notificacion => res.status(201).json(notificacion)) // Devuelve la notificacion completa
+      .catch(error => res.status(400).json({ error: 'Error al agregar la notificacion' }));
+});
+
+app.get('/notificaciones', async (req, res) => {
+  const notificaciones = await Notificacion.find().populate('usuarioID');
+  res.status(200).send(notificaciones);
+});
+
+app.put('/notificaciones/:id', async (req, res) => {
+  const notificacionActualizada = await Notificacion.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.status(200).send(notificacionActualizada);
+});
+
+app.delete('/notificaciones/:id', async (req, res) => {
+  await Notificacion.findByIdAndDelete(req.params.id);
+  res.status(204).send();
+});
 
 
 

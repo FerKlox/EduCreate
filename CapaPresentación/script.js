@@ -1,131 +1,10 @@
-document.addEventListener('DOMContentLoaded', function() {
-    fetchData();
+document.addEventListener('DOMContentLoaded', function() {    
     fetchUsersData();
     fetchCursosData();
+    fetchContenidoCursosData();
+    fetchUsuariosCursoData();
+    fetchNotificacionesData();
 });
-
-document.getElementById('crudForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const nombre = document.getElementById('inputNombre').value;
-    const apellido = document.getElementById('inputApellido').value;
-    const edad = document.getElementById('inputEdad').value;
-    
-    fetch('http://localhost:3000/items', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre, apellido, edad }), // Incluir los nuevos campos
-    })
-    .then(response => response.json())
-    .then(() => {
-        fetchData(); // Recargar lista
-        document.getElementById('inputNombre').value = ''; // Limpiar campos
-        document.getElementById('inputApellido').value = '';
-        document.getElementById('inputEdad').value = '';
-    })
-    .catch(error => console.error('Error al agregar elemento:', error));
-});
-
-function fetchData() {
-    fetch('http://localhost:3000/items')
-        .then(response => response.json())
-        .then(data => {
-            const list = document.getElementById('itemsData');
-            list.innerHTML = ''; // Limpiar lista anterior
-
-            // Crear tabla y cabecera
-            const table = document.createElement('table');
-            const thead = document.createElement('thead');
-            thead.innerHTML = `<tr>
-                <th>ID</th> <!-- Nueva columna para ID -->
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Edad</th>
-                <th>Acciones</th>
-            </tr>`;
-            table.appendChild(thead);
-
-            // Crear cuerpo de la tabla
-            const tbody = document.createElement('tbody');
-            data.forEach(item => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item._id}</td> <!-- Mostrar el _id aquí -->
-                    <td>${item.nombre} <button onclick="editItemName('${item._id}', '${item.nombre}')">Editar</button></td>
-                    <td>${item.apellido} <button onclick="editItemApellido('${item._id}', '${item.apellido}')">Editar</button></td>
-                    <td>${item.edad} <button onclick="editItemEdad('${item._id}', '${item.edad}')">Editar</button></td>
-                    <td>                        
-                        <button onclick="deleteItem('${item._id}')">Eliminar</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-            table.appendChild(tbody);
-
-            // Agregar la tabla al div
-            list.appendChild(table);
-        })
-        .catch(error => console.error('Error al acceder a la API:', error));
-}
-
-function editItemName(id, currentName) {
-    const newName = prompt("Editar elemento", currentName);
-    if (newName) {
-        // Asegurarse de que la solicitud PUT use la estructura correcta
-        fetch(`http://localhost:3000/items/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ nombre: newName }), // Consistente con la estructura de los elementos
-        })
-        .then(() => fetchData())
-        .catch(error => console.error('Error al editar elemento:', error));
-    }
-}
-
-function editItemApellido(id, dato) {
-    const newobj = prompt("Editar elemento", dato);
-    if (newobj) {
-        // Asegurarse de que la solicitud PUT use la estructura correcta
-        fetch(`http://localhost:3000/items/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ apellido: newobj }), // Consistente con la estructura de los elementos
-        })
-        .then(() => fetchData())
-        .catch(error => console.error('Error al editar elemento:', error));
-    }
-}
-
-function editItemEdad(id, dato) {
-    const newobj = prompt("Editar elemento", dato);
-    if (newobj) {
-        // Asegurarse de que la solicitud PUT use la estructura correcta
-        fetch(`http://localhost:3000/items/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ edad: newobj }), // Consistente con la estructura de los elementos
-        })
-        .then(() => fetchData())
-        .catch(error => console.error('Error al editar elemento:', error));
-    }
-}
-
-function deleteItem(id) {
-    if (confirm("¿Estás seguro de querer eliminar este elemento?")) {
-        fetch(`http://localhost:3000/items/${id}`, {
-            method: 'DELETE',
-        })
-        .then(() => fetchData())
-        .catch(error => console.error('Error al eliminar elemento:', error));
-    }
-}
 
 //USUARIOS
 
@@ -299,7 +178,7 @@ document.getElementById('cursoForm').addEventListener('submit', function(e) {
     // Recolectar los datos del formulario
     const cursoData = {
         titulo: document.getElementById('titulo').value,
-        descripcion: document.getElementById('descripcion').value,
+        descripcion: document.getElementById('curso_descripcion').value,
         fechaCreacion: document.getElementById('fechaCreacion').value,
         duracion: parseInt(document.getElementById('duracion').value, 10),
         materiaCurs: parseInt(document.getElementById('materiaCurs').value, 10),
@@ -320,7 +199,7 @@ fetch('http://localhost:3000/cursos', {
     fetchCursosData(); // Recargar lista de cursos
     // Limpiar campos
     document.getElementById('titulo').value = '';
-    document.getElementById('descripcion').value = '';
+    document.getElementById('curso_descripcion').value = '';
     document.getElementById('fechaCreacion').value = '';
     document.getElementById('duracion').value = '';
     document.getElementById('materiaCurs').value = '';
@@ -477,3 +356,437 @@ function deleteCurso(id) {
     }
 }
 
+//CONTENIDO CURSOS
+
+document.getElementById('contenidoCursoForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    // Recoger los valores del formulario
+    const cursoID = document.getElementById('curso_ID').value;
+    const tipoContenido = document.getElementById('tipo_contenido').value;
+    const descripcion = document.getElementById('contenido_curso_descripcion').value;
+    const urlVideo = document.getElementById('url_video').value;
+
+    // Crear el objeto de datos para enviar
+    const data = {
+        cursoID: cursoID,
+        tipoContenido: tipoContenido,
+        descripcion: descripcion,
+        urlVideo: urlVideo
+    };
+
+    // Enviar los datos al API
+    fetch('http://localhost:3000/contenido-cursos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Contenido del curso agregado:', data);
+        fetchContenidoCursosData(); // Recargar lista de contenidos de cursos
+        // Limpiar campos
+        document.getElementById('curso_ID').value = '';
+        document.getElementById('tipo_contenido').value = '';
+        document.getElementById('contenido_curso_descripcion').value = '';
+        document.getElementById('url_video').value = '';
+    })
+    .catch(error => {
+        console.error('Error al agregar contenido del curso:', error);
+    });
+});
+
+function fetchContenidoCursosData() {
+    fetch('http://localhost:3000/contenido-cursos')
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('contenidoCursosData');
+            list.innerHTML = ''; // Limpiar lista anterior
+
+            // Crear tabla y cabecera
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            thead.innerHTML = `<tr>
+                <th>ID</th>
+                <th>ID del Curso</th>
+                <th>Tipo de Contenido</th>
+                <th>Descripción</th>
+                <th>URL del Video</th>
+                <th>Acciones</th>
+            </tr>`;
+            table.appendChild(thead);
+
+            // Crear cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item._id}</td>
+                    <td>${item.cursoID}<button onclick="editContenidoCursoID('${item._id}', '${item.cursoID}')">Editar</button></td>
+                    <td>${item.tipoContenido}<button onclick="editContenidoCursoTipoContenido('${item._id}', '${item.tipoContenido}')">Editar</button></td> 
+                    <td>${item.descripcion}<button onclick="editContenidoCursoDescripcion('${item._id}', '${item.descripcion}')">Editar</button></td>
+                    <td>${item.urlVideo}<button onclick="editContenidoCursoUrlVideo('${item._id}', '${item.urlVideo}')">Editar</button></td>                    
+                    <td>                        
+                        <button onclick="deleteContenidoCurso('${item._id}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+
+            // Agregar la tabla al div
+            list.appendChild(table);
+        })
+        .catch(error => console.error('Error al acceder a la API:', error));
+}
+
+function editContenidoCursoID(id, currentID) {
+    const newID = prompt("Editar ID del curso", currentID);
+    if (newID) {
+        fetch(`http://localhost:3000/contenido-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cursoID: newID }),
+        })
+        .then(() => fetchContenidoCursosData())
+        .catch(error => console.error('Error al editar ID del curso:', error));
+    }
+}
+function editContenidoCursoTipoContenido(id, currentTipoContenido) {
+    const newTipoContenido = prompt("Editar tipo de contenido", currentTipoContenido);
+    if (newTipoContenido) {
+        fetch(`http://localhost:3000/contenido-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tipoContenido: newTipoContenido }),
+        })
+        .then(() => fetchContenidoCursosData())
+        .catch(error => console.error('Error al editar tipo de contenido:', error));
+    }
+}
+function editContenidoCursoDescripcion(id, currentDescripcion) {
+    const newDescripcion = prompt("Editar descripción", currentDescripcion);
+    if (newDescripcion) {
+        fetch(`http://localhost:3000/contenido-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ descripcion: newDescripcion }),
+        })
+        .then(() => fetchContenidoCursosData())
+        .catch(error => console.error('Error al editar descripción:', error));
+    }
+}
+function editContenidoCursoUrlVideo(id,currentUrlVideo) {
+    const newUrlVideo = prompt("Editar URL del video", currentUrlVideo);
+    if (newUrlVideo) {
+        fetch(`http://localhost:3000/contenido-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ urlVideo: newUrlVideo }),
+        })
+        .then(() => fetchContenidoCursosData())
+        .catch(error => console.error('Error al editar URL del video:', error));
+    }
+}
+
+function deleteContenidoCurso(id) {
+    if (confirm("¿Estás seguro de querer eliminar este contenido del curso?")) {
+        fetch(`http://localhost:3000/contenido-cursos/${id}`, {
+            method: 'DELETE',
+        })
+        .then(() => fetchContenidoCursosData())
+        .catch(error => console.error('Error al eliminar contenido del curso:', error));
+    }
+}
+
+//usuarioCursos
+
+document.getElementById('usuarioCursoForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+    // Recoger los valores del formulario
+    const usuarioID = document.getElementById('uc_usuario_ID').value;
+    const cursoID = document.getElementById('uc_curso_ID').value;
+    const fechaInscripcion = document.getElementById('fecha_inscripcion').value;
+
+    // Crear el objeto de datos para enviar
+    const data = {
+        usuarioID: usuarioID,
+        cursoID: cursoID,
+        fechaInscripcion: fechaInscripcion
+    };
+
+    // Enviar los datos al API
+    fetch('http://tuapi.com/usuario-cursos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Inscripción agregada:', data);
+        // Aquí puedes agregar código para manejar la respuesta, como actualizar la UI
+    })
+    .catch(error => {
+        console.error('Error al agregar inscripción:', error);
+    });
+});
+
+function fetchUsuariosCursoData() {
+    fetch('http://localhost:3000/usuario-cursos')
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('usuariosCursoData');
+            list.innerHTML = ''; // Limpiar lista anterior
+
+            // Crear tabla y cabecera
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            thead.innerHTML = `<tr>
+                <th>ID</th>
+                <th>ID del Usuario</th>
+                <th>ID del Curso</th>
+                <th>Fecha de Inscripción</th>
+                <th>Acciones</th>
+            </tr>`;
+            table.appendChild(thead);
+
+            // Crear cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item._id}</td>
+                    <td>${item.usuarioID} <button onclick="editUsuarioCurso_usuarioID('${item._id}', '${item.usuarioID}')">Editar</button></td>
+                    <td>${item.cursoID} <button onclick="editUsuarioCurso_cursoID('${item._id}', '${item.cursoID}')">Editar</button></td>
+                    <td>${item.fechaInscripcion} <button onclick="editUsuarioCurso_fechaInscripcion('${item._id}', '${item.fechaInscripcion}')">Editar</button></td>
+                    <td>
+                        <button onclick="deleteUsuarioCurso('${item._id}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+
+            // Agregar la tabla al div
+            list.appendChild(table);
+        })
+        .catch(error => console.error('Error al acceder a la API:', error));
+}
+
+function editUsuarioCurso_usuarioID(id, currentUsuarioID) {
+    const newUsuarioID = prompt("Editar ID del usuario", currentUsuarioID);
+    if (newUsuarioID) {
+        fetch(`http://localhost:3000/usuario-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ usuarioID: newUsuarioID }),
+        })
+        .then(() => fetchUsuariosCursoData())
+        .catch(error => console.error('Error al editar ID del usuario:', error));
+    }
+}
+
+function editUsuarioCurso_cursoID(id, currentCursoID) {
+    const newCursoID = prompt("Editar ID del curso", currentCursoID);
+    if (newCursoID) {
+        fetch(`http://localhost:3000/usuario-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cursoID: newCursoID }),
+        })
+        .then(() => fetchUsuariosCursoData())
+        .catch(error => console.error('Error al editar ID del curso:', error));
+    }
+}
+
+function editUsuarioCurso_fechaInscripcion(id, currentFechaInscripcion) {
+    const newFechaInscripcion = prompt("Editar fecha de inscripción", currentFechaInscripcion);
+    if (newFechaInscripcion) {
+        fetch(`http://localhost:3000/usuario-cursos/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fechaInscripcion: newFechaInscripcion }),
+        })
+        .then(() => fetchUsuariosCursoData())
+        .catch(error => console.error('Error al editar fecha de inscripción:', error));
+    }
+}
+
+function deleteUsuarioCurso(id) {
+    if (confirm("¿Estás seguro de querer eliminar esta inscripción?")) {
+        fetch(`http://localhost:3000/usuario-cursos/${id}`, {
+            method: 'DELETE',
+        })
+        .then(() => fetchUsuariosCursoData())
+        .catch(error => console.error('Error al eliminar inscripción:', error));
+    }
+}
+
+//NOTIFICAIONES
+
+document.getElementById('notificacionForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevenir el envío tradicional del formulario
+
+    // Recoger los valores del formulario
+    const usuarioID = document.getElementById('n_usuario_ID').value;
+    const descripcion = document.getElementById('n_descripcion').value;
+    const fechaEnvio = document.getElementById('fecha_envio').value;
+    const horaEnvio = document.getElementById('hora_envio').value;
+
+    // Construir el cuerpo de la solicitud
+    const data = {
+        usuarioID: usuarioID,
+        descripcion: descripcion,
+        fechaEnvio: fechaEnvio,
+        horaEnvio: horaEnvio
+    };
+
+    // Realizar la solicitud POST
+    fetch('http://localhost:3000/notificaciones', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+function fetchNotificacionesData() {
+    fetch('http://localhost:3000/notificaciones')
+        .then(response => response.json())
+        .then(data => {
+            const list = document.getElementById('notificacionesData'); // Asegúrate de tener este ID en tu HTML
+            list.innerHTML = ''; // Limpiar lista anterior
+
+            // Crear tabla y cabecera
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            thead.innerHTML = `<tr>
+                <th>ID</th>
+                <th>ID del Usuario</th>
+                <th>Descripción</th>
+                <th>Fecha de Envío</th>
+                <th>Hora de Envío</th>
+                <th>Acciones</th>
+            </tr>`;
+            table.appendChild(thead);
+
+            // Crear cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item._id}</td>
+                    <td>${item.usuarioID} <button onclick="editNotificacion_usuarioID('${item._id}', '${item.usuarioID}')">Editar</button></td>
+                    <td>${item.descripcion} <button onclick="editNotificacion_descripcion('${item._id}', '${item.descripcion}')">Editar</button></td>
+                    <td>${item.fechaEnvio} <button onclick="editNotificacion_fechaEnvio('${item._id}', '${item.fechaEnvio}')">Editar</button></td>
+                    <td>${item.horaEnvio} <button onclick="editNotificacion_horaEnvio('${item._id}', '${item.horaEnvio}')">Editar</button></td>
+                    <td>                        
+                        <button onclick="deleteNotificacion('${item._id}')">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+
+            // Agregar la tabla al div
+            list.appendChild(table);
+        })
+        .catch(error => console.error('Error al acceder a la API:', error));
+}
+
+function editNotificacion_usuarioID(id, currentUsuarioID) {
+    const newUsuarioID = prompt("Editar ID del usuario", currentUsuarioID);
+    if (newUsuarioID) {
+        fetch(`http://localhost:3000/notificaciones/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ usuarioID: newUsuarioID }),
+        })
+        .then(() => fetchNotificacionesData())
+        .catch(error => console.error('Error al editar ID del usuario:', error));
+    }
+}
+
+function editNotificacion_descripcion(id, currentDescripcion) {
+    const newDescripcion = prompt("Editar descripción", currentDescripcion);
+    if (newDescripcion) {
+        fetch(`http://localhost:3000/notificaciones/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ descripcion: newDescripcion }),
+        })
+        .then(() => fetchNotificacionesData())
+        .catch(error => console.error('Error al editar descripción:', error));
+    }
+}
+
+function editNotificacion_fechaEnvio(id, currentFechaEnvio) {
+    const newFechaEnvio = prompt("Editar fecha de envío", currentFechaEnvio);
+    if (newFechaEnvio) {
+        fetch(`http://localhost:3000/notificaciones/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ fechaEnvio: newFechaEnvio }),
+        })
+        .then(() => fetchNotificacionesData())
+        .catch(error => console.error('Error al editar fecha de envío:', error));
+    }
+}
+
+function editNotificacion_horaEnvio(id, currentHoraEnvio) {
+    const newHoraEnvio = prompt("Editar hora de envío", currentHoraEnvio);
+    if (newHoraEnvio) {
+        fetch(`http://localhost:3000/notificaciones/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ horaEnvio: newHoraEnvio }),
+        })
+        .then(() => fetchNotificacionesData())
+        .catch(error => console.error('Error al editar hora de envío:', error));
+    }
+}
+
+function deleteNotificacion(id) {
+    if (confirm("¿Estás seguro de querer eliminar esta notificación?")) {
+        fetch(`http://localhost:3000/notificaciones/${id}`, {
+            method: 'DELETE',
+        })
+        .then(() => fetchNotificacionesData())
+        .catch(error => console.error('Error al eliminar notificación:', error));
+    }
+}   
