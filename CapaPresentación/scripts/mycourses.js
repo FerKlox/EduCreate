@@ -39,19 +39,21 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const courseImage = document.createElement('img');
                                 courseImage.src = curso.urlVideo; // Actualizado para usar urlVideo como fuente de la imagen
 
+                                
+
                                 cursoElement.className = 'course-card';
                                 cursoElement.innerHTML = `
-                                    <!-- Aquí podrías optar por mostrar un enlace al video o una imagen predeterminada -->
-                                    <div class="course-video">
-                                        <a href="${curso.urlVideo}" target="_blank"><img src="${courseImage.src}" alt="Ver Video"></a>
-                                    </div>
-                                    <div class="course-details">
-                                        <h3>${curso.titulo}</h3>
-                                        <p><i class="date">${curso.fechaCreacion}</i></p>
-                                        <p>${curso.descripcion}</p>
-                                        <button class="drop-course-button" onclick="dejarCurso('${curso._id}')">Drop out of the course</button>
-                                    </div>
-                                `;
+                                <div class="course-video">
+                                    <a href="${curso.urlVideo}" target="_blank"><img src="${courseImage.src}" alt="Ver Video"></a>
+                                </div>
+                                <div class="course-details">
+                                    <h3>${curso.titulo}</h3>                                   
+                                    
+                                    <p><i class="date">${curso.fechaCreacion}</i></p>
+                                    <p>${curso.descripcion}</p>
+                                    <button class="drop-course-button" onclick="dejarCurso('${curso._id}')">Drop out of the course</button>
+                                </div>
+                            `;
                                 document.querySelector('#courses-container').appendChild(cursoElement); // Asegúrate de que el selector sea correcto
                             });
                         }
@@ -63,52 +65,36 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function dejarCurso(cursoID) {
-    // Obtener usuarioId desde localStorage
-    const usuarioId = localStorage.getItem('userId');
-    if (!usuarioId) {
-        console.error('usuarioId no está disponible en localStorage');
-        return;
-    }
+    const userID = localStorage.getItem('userId');
+    console.log('Intentando dejar curso:', cursoID, 'para el usuario:', userID);
 
-    fetch('http://localhost:3000/usuario-cursos/')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al obtener los datos');
+    // Paso 1: Buscar todos los cursos del usuario
+    fetch(`http://localhost:3000/usuario-cursos?usuarioID=${userID}`)
+        .then(response => response.json())
+        .then(cursos => {
+            // Paso 2: Filtrar para encontrar el curso específico
+            const cursoUsuario = cursos.find(curso => curso.cursoID === cursoID && curso.usuarioID === userID);
+            if (!cursoUsuario) {
+                console.error('Curso no encontrado para el usuario:', userID);
+                return;
             }
-            return response.json(); // Convertir la respuesta a JSON
-        })
-        .then(data => {
-            // Usar .find para buscar el curso específico por cursoID y usuarioId
-            
-            const cursoUsuarioEncontrado = data.find(curso => curso.cursoID === cursoID && curso.usuarioId === usuarioId);
-            console.log('Datos:', cursoUsuarioEncontrado);
-            if (cursoUsuarioEncontrado) {
-                console.log('Curso del usuario encontrado:', cursoUsuarioEncontrado);
-                // Proceder a eliminar el curso
-                eliminarCurso(cursoUsuarioEncontrado.id, usuarioId);
-            } else {
-                console.log('Curso del usuario no encontrado');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
 
-function eliminarCurso(cursoID, usuarioId) {
-    // Asumiendo que el servidor requiere cursoID y usuarioId para eliminar un curso
-    fetch(`http://localhost:3000/usuario-cursos/${cursoID}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ usuarioId: usuarioId }) // Enviar usuarioId en el cuerpo si es necesario
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error al eliminar el curso');
-        }
-        console.log('Curso eliminado con éxito');
-        // Actualizar la UI aquí o realizar otras acciones necesarias después de la eliminación
-    })
-    .catch(error => console.error('Error al eliminar el curso:', error));
-}
+            // Paso 3: Obtener el ID del curso-usuario
+            const cursoUsuarioID = cursoUsuario._id;
 
+            // Paso 4: Realizar la solicitud DELETE usando el ID obtenido
+            fetch(`http://localhost:3000/usuario-cursos/${cursoUsuarioID}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Curso dejado exitosamente.');
+                    location.reload();
+                } else {
+                    console.error('Error al dejar el curso.');
+                }
+            })
+            .catch(error => console.error('Error al dejar el curso:', error));
+        })
+        .catch(error => console.error('Error buscando cursos del usuario:', error));
+}
